@@ -37,6 +37,65 @@ def patient_splash():
 
     return render_template("patient.html")
 
+@app.route('/record', methods=['POST'])
+def record():
+    import time
+
+    import speech_recognition as sr
+
+
+    def recognize_speech_from_mic(recognizer, microphone):
+        if not isinstance(recognizer, sr.Recognizer):
+            raise TypeError("`recognizer` must be `Recognizer` instance")
+
+        if not isinstance(microphone, sr.Microphone):
+            raise TypeError("`microphone` must be `Microphone` instance")
+
+        # adjust the recognizer sensitivity to ambient noise and record audio
+        # from the microphone
+        with microphone as source:
+            recognizer.adjust_for_ambient_noise(source)
+            audio = recognizer.listen(source)
+
+        # set up the response object
+        response = {
+            "success": True,
+            "error": None,
+            "transcription": None
+        }
+
+        # try recognizing the speech in the recording
+        # if a RequestError or UnknownValueError exception is caught,
+        #     update the response object accordingly
+        try:
+            response["transcription"] = recognizer.recognize_google(audio)
+        except sr.RequestError:
+            # API was unreachable or unresponsive
+            response["success"] = False
+            response["error"] = "API unavailable"
+        except sr.UnknownValueError:
+            # speech was unintelligible
+            response["error"] = "Unable to recognize speech"
+
+   sentence = response
+
+  return render_template("patient.html", sentence = sentence)
+
+@app.route('/upload', methods=['POST'])
+    def upload():
+    try:
+        from PIL import Image
+    except ImportError:
+        import Image
+    import pytesseract
+
+    def ocr_core(filename):
+        text = pytesseract.image_to_string(Image.open(filename))  # We'll use Pillow's Image class to open the image and pytesseract to detect the string in the image
+        text = sentence
+  return render_template("patient.html", sentence = sentence)
+    
+
+
 @app.route('/write', methods=['POST'])
 def submit_journal_entry():
     if request.method == 'POST' and 'entry' in request.form:
@@ -68,7 +127,7 @@ def submit_journal_entry():
     
 
 
-@app.route('/upload', methods = ['GET', 'POST'])
+@app.route('/uploads', methods = ['GET', 'POST'])
 def upload_file():
     if request.method == 'POST' and 'file' in request.files:
         f = request.files['file']
