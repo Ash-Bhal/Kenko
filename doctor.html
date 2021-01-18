@@ -1,16 +1,15 @@
 <!doctype html>
 <html lang="en" class="h-100">
   <head>
-      <style>
+    <style>
       body {
         background-image: url("https://wallpaperaccess.com/full/680971.jpg");
-        background-repeat: no-repeat;
       }
       </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <title>Kaizen Journal</title>
+    <title>Kenko Journal</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sticky-footer-navbar/">
 
@@ -36,123 +35,44 @@
     </style>
     <!-- Custom styles for this template -->
     <link href="sticky-footer-navbar.css" rel="stylesheet">
-
-    <meta id="scores_rev" scores_rev="{{ scores_rev }}">
-    <meta id="score_type_dist" score_type_dist="{{ score_type_dist }}">
-
-    <script>
-      window.onload = function () {
-      var chart = new CanvasJS.Chart("timeSeries", {
-          animationEnabled: true,
-          theme: "light2",
-          // title:{
-          //     text: "Simple Line Chart"
-          // },
-          axisY: {
-              title: "Wellness Score",
-              stripLines: [{
-                  value: {{ score_avg }},
-                  label: "Average Wellness Score"
-              }]
-          },
-          data: [{        
-              // type: "line",
-              type: "splineArea",
-          color: "rgba(54,158,173,.7)",
-                indexLabelFontSize: 16,
-                dataPoints: [
-                  {% for score in scores_rev %}
-                  {y: {{score}}},
-                  {% endfor %}],
-          }]
-      });
-
-      CanvasJS.addColorSet("ourColors",
-              [//colorSet Array
-              "crimson",
-              "rgb(225, 178, 22)",
-              "rgb(40, 176, 49)",             
-              ]);
-
-      var donut = new CanvasJS.Chart("donutChart", {
-          animationEnabled: true,
-          colorSet: "ourColors",
-          data: [{
-              type: "doughnut",
-              startAngle: 60,
-              //innerRadius: 60,
-              indexLabelFontSize: 17,
-              
-              dataPoints: [
-                          {% for score_type in score_type_dist %}    
-                          { y: {{ score_type.count }} },
-                          {% endfor %}],
-              }]
-      });
-          
-      chart.render();
-      donut.render();
-    }
-
-  </script>
   </head>
-
-
   <body class="d-flex flex-column h-100">
-  <header style="margin-bottom: 3em;">
-  <!-- Fixed navbar -->
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="/patients">Patients</a>
-          </li>
-      </ul>
-    </div>
-  </nav>
-</header>
+    <header style="margin-bottom: 3.5em;">
+        <!-- Fixed navbar -->
+        <nav style="background-color: rgb(110, 204, 160);" class="navbar navbar-expand-md navbar-dark fixed-top">
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul style="font-size: 1.5em;" class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Today</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="/journal">My Journal <span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
 
 <!-- Begin page content -->
 <main role="main" class="flex-shrink-0">
   <div class="container">
-    <h1 class="mt-5">Neeral's Progress</h1>
-    <p class="lead">Keep track of your patient's progress down below.</p>
-
-    {% if entries %}
-    <div>
-        <div id="timeSeries" style="height: 370px; width: 60%; display: inline-block; margin-right: 1em;"></div>
-        <div id="donutChart" style="height: 370px; width: 35%; display: inline-block;"></div>
-    </div>
-
-    <div>
-        <div style="width: 60%; display: inline-block; margin-right: 2em;">
-            <p style="font-size: 1.5em;"><b>Patient wellness score over time.</b></p>
-        </div>
-        <div style="width: 35%; display: inline-block;">
-            <p><b>Distribution of journal entry scores. <br/> (Red: Concern, Yellow: Moderate, Green: Good)</b></p>
-        </div>
-    </div>
+    <h1 class="mt-5">Your Journal</h1>
+    <p class="lead">Keep track of all your journal entries down below.</p>
 
     <div style="margin-top: 2em;">
-            {% for entry in range(length) %}
+        {% if entries %}
+            {% for i in range(length) %}
+            
               <div class="card" style="width: 100%;">
                 <div class="card-body">
-                  {% if ratinglist[entry] < -0.2 %}
-                    <h6 class="card-subtitle mb-2 text-muted">{{ timelist[i] }}</h6>
-                    <h5 style="color:crimson;"><span style="font-size: 1.5em;"><b>{{ ratinglist[entry] }}</b></span> Concern</h5>
-                  {% elif ratinglist[entry] > 0.2 %}
-                    <h6 class="card-subtitle mb-2 text-muted">{{ timelist[i] }}</h6>
-                    <h5 style="color:rgb(40, 176, 49);"><span style="font-size: 1.5em;"><b>{{ ratinglist[entry] }}</b></span> Good</h5>
-                  {% else %}
                   <h6 class="card-subtitle mb-2 text-muted">{{ timelist[i] }}</h6>
-                    <h5 style="color:rgb(225, 178, 22);"><span style="font-size: 1.5em;"><b>{{ ratinglist[entry] }}</b></span> Moderate</h5>
-                  {% endif %}
-                  <h6 class="card-subtitle mb-2 text-muted"></h6>
+                  <p class="card-text">{{entrieslist[i]}}</p>
+                  <br><br>
                 </div>
               </div>
             {% endfor %}
         {% else %}
-            <h3>No patient journal entries yet.</h3>
+            <h3>No journal entries yet. Happy writing!</h3>
         {% endif %}
 
     </div>
@@ -162,8 +82,7 @@
 
 <footer class="footer mt-auto py-3">
   <div class="container">
-    <span class="text-muted">Kaizen</span>
+    <span class="text-muted">Kenko</span>
   </div>
 </footer>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </html>
