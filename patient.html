@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <title>Kaizen Journal</title>
+    <title>Kenko Journal</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sticky-footer-navbar/">
 
@@ -72,19 +72,23 @@
     <h1 class="mt-5">Hello, Neeral.</h1>
     <p class="lead">Welcome to <b>健康 Kenkō</b>, a webapp that uses machine learning to accurately analyze your emotions and mental health thus allowing for your doctors and healthcare providers to make better and more helpful decisions regarding your health status.
     </p>
-    <h3 class="mt-5">Get Started by writing about your day or uploading a journal.</h3>
+    <h3 class="mt-5">Get Started by writing, recording, or uploading a journal.</h3>
 
 
-
+    <form action="/record" method="post">
+      <button style="background-color:rgb(110, 204, 160); border-color:rgb(110, 204, 160);" class="btn btn-primary btn-lg btn-block" type="submit">Record/Speak</button>
+    </form>
 
     <form action="/write" method="post">
       <div class="shadow">
         <div class="form-group">
-          <textarea style="font-size: 2em; border: none" placeholder="Write Something Here..." class="form-control" id="entry" name="entry" rows="7" required></textarea>
+          <textarea style="font-size: 2em; border: none" placeholder="Write Something Here..." class="form-control" id="entry" name="entry" rows="7" required>{{sentence}}</textarea>
         </div>
       </div>
       <button style="background-color:#FC766AFF; border-color: #FC766AFF;" class="btn btn-primary btn-lg btn-block" type="submit">Write</button>
     </form>
+
+
 
     <div style="margin-top: 2em;">
       <h3 style="margin-bottom: 0.5em;">Have a photo of your journal entry instead?</h3>
